@@ -1,0 +1,55 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: rke2-coredns
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    servers:
+    - zones:
+      - zone: .
+      port: 53
+      plugins:
+      - name: errors
+      - name: health
+        configBlock: |-
+          lameduck 5s
+      - name: ready
+      - name: kubernetes
+        parameters: cluster.local in-addr.arpa ip6.arpa
+        configBlock: |-
+          pods insecure
+          fallthrough in-addr.arpa ip6.arpa
+          ttl 30
+      - name: prometheus
+        parameters: 0.0.0.0:9153
+      - name: forward
+        parameters: . /etc/resolv.conf
+      - name: cache
+        parameters: 30
+      - name: loop
+      - name: reload
+      - name: loadbalance
+    - zones:
+      - zone: yeetbox.org
+      port: 53
+      plugins:
+      - name: file
+        parameters: /etc/coredns/yeetbox.db
+      - name: errors
+      - name: log
+    zoneFiles:
+      - filename: yeetbox.db
+        domain: yeetbox.org
+        contents: |
+          yeetbox.org.    IN SOA k3s-cp.yeetbox.org. 2015082541 7200 3600 1209600 3600
+          k3s-cp          IN A   172.16.96.129
+          k3s-worker-01   IN A   172.16.96.130
+          k3s-worker-02   IN A   172.16.96.131
+          k3s-worker-03   IN A   172.16.96.132          
+#          vip.jfni.jiant.net.   IN A   172.16.96.142
+#          rancher-lb.jfni.jiant.net.   IN A   172.16.96.145
+#          harbor.jfni.jiant.net.   IN A   172.16.96.146
+#          *.vip.jfni.jiant.net.   IN CNAME   vip
+#          rancher.jfni.jiant.net.   IN CNAME   rancher-lb
+
