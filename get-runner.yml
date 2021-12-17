@@ -1,0 +1,24 @@
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: RunnerDeployment
+metadata:
+  name: like-drainO
+  namespace: actions
+spec:
+  template:
+    spec:
+      repository: paugh7/Testing
+---
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: HorizontalRunnerAutoscaler
+metadata:
+  name: like-drainO-autoscaler
+spec:
+  scaleTargetRef:
+    name: like-drainO
+  minReplicas: 1
+  maxReplicas: 3
+  scaleDownDelaySecondsAfterScaleOut: 60
+  metrics:
+  - type: TotalNumberOfQueuedAndInProgressWorkflowRuns
+    repositoryNames:
+    - paugh7/Testing
