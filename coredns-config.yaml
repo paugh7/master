@@ -43,10 +43,10 @@ spec:
         domain: yeetbox.org
         contents: |
           yeetbox.org.    IN SOA k3s-cp.yeetbox.org. 2015082541 7200 3600 1209600 3600
-          k3s-cp          IN A   172.16.96.129
-          k3s-worker-01   IN A   172.16.96.130
-          k3s-worker-02   IN A   172.16.96.131
-          k3s-worker-03   IN A   172.16.96.132          
+          k3s-cp          IN A   192.168.1.67
+          k3s-worker-01   IN A   192.168.1.*
+          k3s-worker-02   IN A   192.168.1.*
+          k3s-worker-03   IN A   192.168.1.*          
 #          vip.jfni.jiant.net.   IN A   172.16.96.142
 #          rancher-lb.jfni.jiant.net.   IN A   172.16.96.145
 #          harbor.jfni.jiant.net.   IN A   172.16.96.146
