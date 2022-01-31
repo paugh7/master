@@ -17,7 +17,7 @@ on:
 jobs:
   lint:
     name: Kubesec
-    runs-on: self-hosted
+    runs-on: [self-hosted, arm64]
     permissions:
       actions: read
       contents: read
